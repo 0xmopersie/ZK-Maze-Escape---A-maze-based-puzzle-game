@@ -49,6 +49,7 @@ function create() {
     player.setCollideWorldBounds(true);
     player.setPosition(100, 300);
     player.setScale(0.3);
+    player.setVelocityX(100); 
     this.physics.add.collider(player, ground);
     
     obstacles = this.physics.add.group();
@@ -80,14 +81,6 @@ function create() {
 }
 
 function update() {
-    if (cursors.left.isDown) {
-        player.setVelocityX(-160);
-    } else if (cursors.right.isDown) {
-        player.setVelocityX(160);
-    } else {
-        player.setVelocityX(0);
-    }
-    
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-350);
         this.sound.play('jump');
