@@ -1,50 +1,87 @@
+// ZK Runner - Succinct Themed Game
+// Basic endless runner game in JavaScript using Phaser.js
+
 const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 400,
     physics: {
         default: 'arcade',
-        arcade: { gravity: { y: 500 }, debug: false }
+        arcade: {
+            gravity: { y: 500 },
+            debug: false
+        }
     },
-    scene: { preload, create, update }
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
 };
 
-let player, cursors, obstacles, zkProofs, score = 0, scoreText;
+let player;
+let cursors;
+let obstacles;
+let zkProofs;
+let score = 0;
+let scoreText;
+
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('player', 'https://via.placeholder.com/40');
-    this.load.image('ground', 'https://via.placeholder.com/800x20');
-    this.load.image('obstacle', 'https://via.placeholder.com/30');
-    this.load.image('zkProof', 'https://via.placeholder.com/20');
+    this.load.image('player', 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg');
+    this.load.image('ground', 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Rectangular_Shape.svg');
+    this.load.image('obstacle', 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Stop_sign.png');
+    this.load.image('zkProof', 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Check_green_icon.svg');
 }
 
 function create() {
     this.add.rectangle(400, 200, 800, 400, 0x000000);
     let ground = this.physics.add.staticGroup();
     ground.create(400, 390, 'ground');
-    player = this.physics.add.sprite(100, 300, 'player').setCollideWorldBounds(true);
+    
+    player = this.physics.add.sprite(100, 300, 'player');
+    player.setCollideWorldBounds(true);
     this.physics.add.collider(player, ground);
+    
     obstacles = this.physics.add.group();
     zkProofs = this.physics.add.group();
-    this.time.addEvent({ delay: 2000, callback: spawnObstacle, callbackScope: this, loop: true });
-    this.time.addEvent({ delay: 3000, callback: spawnZKProof, callbackScope: this, loop: true });
+    
+    this.time.addEvent({
+        delay: 2000,
+        callback: spawnObstacle,
+        callbackScope: this,
+        loop: true
+    });
+    
+    this.time.addEvent({
+        delay: 3000,
+        callback: spawnZKProof,
+        callbackScope: this,
+        loop: true
+    });
+    
     cursors = this.input.keyboard.createCursorKeys();
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#fff' });
+    
     this.physics.add.collider(player, obstacles, gameOver, null, this);
     this.physics.add.overlap(player, zkProofs, collectZKProof, null, this);
 }
 
 function update() {
-    if (cursors.up.isDown && player.body.touching.down) player.setVelocityY(-350);
+    if (cursors.up.isDown && player.body.touching.down) {
+        player.setVelocityY(-350);
+    }
 }
 
 function spawnObstacle() {
-    obstacles.create(800, 360, 'obstacle').setVelocityX(-200);
+    let obstacle = obstacles.create(800, 360, 'obstacle');
+    obstacle.setVelocityX(-200);
 }
 
 function spawnZKProof() {
-    zkProofs.create(800, Phaser.Math.Between(250, 350), 'zkProof').setVelocityX(-200);
+    let zkProof = zkProofs.create(800, Phaser.Math.Between(250, 350), 'zkProof');
+    zkProof.setVelocityX(-200);
 }
 
 function collectZKProof(player, zkProof) {
