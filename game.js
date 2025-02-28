@@ -80,6 +80,14 @@ function create() {
 }
 
 function update() {
+    if (cursors.left.isDown) {
+        player.setVelocityX(-160);
+    } else if (cursors.right.isDown) {
+        player.setVelocityX(160);
+    } else {
+        player.setVelocityX(0);
+    }
+    
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-350);
         this.sound.play('jump');
