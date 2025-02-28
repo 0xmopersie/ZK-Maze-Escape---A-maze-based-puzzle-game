@@ -31,7 +31,7 @@ let restartButton;
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('player', 'https://cdn-icons-png.flaticon.com/512/4712/4712034.png');
+    this.load.image('player', 'https://cdn-icons-png.flaticon.com/512/4144/4144600.png');
     this.load.image('ground', 'https://cdn-icons-png.flaticon.com/512/646/646094.png');
     this.load.image('obstacle', 'https://cdn-icons-png.flaticon.com/512/564/564619.png');
     this.load.image('zkProof', 'https://cdn-icons-png.flaticon.com/512/845/845646.png');
@@ -47,7 +47,8 @@ function create() {
     
     player = this.physics.add.sprite(100, 300, 'player');
     player.setCollideWorldBounds(true);
-    player.setScale(0.15);
+    player.setPosition(100, 300);
+    player.setScale(0.3);
     this.physics.add.collider(player, ground);
     
     obstacles = this.physics.add.group();
