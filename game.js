@@ -33,7 +33,6 @@ function preload() {
     this.load.image('ground', 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Rectangular_Shape.svg');
     this.load.image('obstacle', 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Stop_sign.png');
     this.load.image('zkProof', 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Check_green_icon.svg');
-
 }
 
 function create() {
