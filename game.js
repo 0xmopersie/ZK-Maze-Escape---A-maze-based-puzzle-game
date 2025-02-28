@@ -1,4 +1,4 @@
-// ZK Maze Escape - A maze-based puzzle game
+// ZK Maze Escape - A maze-based puzzle game with project-themed assets
 // Collect all ZK Proofs to unlock the exit and escape the maze
 
 const config = {
@@ -31,20 +31,21 @@ let gameOverText;
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('player', 'https://cdn-icons-png.flaticon.com/512/4144/4144600.png');
-    this.load.image('wall', 'https://cdn-icons-png.flaticon.com/512/1532/1532666.png');
-    this.load.image('zkProof', 'https://cdn-icons-png.flaticon.com/512/845/845646.png');
-    this.load.image('exit', 'https://cdn-icons-png.flaticon.com/512/1828/1828427.png');
+    this.load.image('player', 'https://cdn-icons-png.flaticon.com/512/4712/4712034.png'); // Custom project-themed character
+    this.load.image('wall', 'https://cdn-icons-png.flaticon.com/512/2889/2889676.png'); // Themed walls
+    this.load.image('zkProof', 'https://cdn-icons-png.flaticon.com/512/2729/2729013.png'); // Themed proof collectible
+    this.load.image('exit', 'https://cdn-icons-png.flaticon.com/512/484/484662.png'); // Themed exit
     this.load.audio('collect', 'https://assets.mixkit.co/active_storage/sfx/1805/1805-preview.mp3');
     this.load.audio('win', 'https://assets.mixkit.co/active_storage/sfx/2023/2023-preview.mp3');
 }
 
 function create() {
-    this.add.rectangle(400, 300, 800, 600, 0x000000);
+    this.add.rectangle(400, 300, 800, 600, 0x1e1e1e);
     
     walls = this.physics.add.staticGroup();
-    for (let i = 0; i < 10; i++) {
-        walls.create(Phaser.Math.Between(100, 700), Phaser.Math.Between(100, 500), 'wall').setScale(0.1).refreshBody();
+    for (let i = 50; i < 750; i += 100) {
+        walls.create(i, 200, 'wall').setScale(0.15).refreshBody();
+        walls.create(i, 400, 'wall').setScale(0.15).refreshBody();
     }
     
     player = this.physics.add.sprite(100, 100, 'player');
