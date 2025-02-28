@@ -30,10 +30,9 @@ const game = new Phaser.Game(config);
 
 function preload() {
     this.load.image('player', 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg');
-    this.load.image('ground', 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Rectangular_Shape.svg');
+    this.load.image('ground', 'https://cdn-icons-png.flaticon.com/512/646/646094.png');
     this.load.image('obstacle', 'https://cdn-icons-png.flaticon.com/512/564/564619.png'); 
     this.load.image('zkProof', 'https://cdn-icons-png.flaticon.com/512/845/845646.png'); 
-
 }
 
 function create() {
