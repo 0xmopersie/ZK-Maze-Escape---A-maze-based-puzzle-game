@@ -36,8 +36,8 @@ function preload() {
     this.load.image('obstacle', 'https://cdn-icons-png.flaticon.com/512/564/564619.png');
     this.load.image('zkProof', 'https://cdn-icons-png.flaticon.com/512/845/845646.png');
     this.load.image('restart', 'https://cdn-icons-png.flaticon.com/512/3031/3031293.png');
-    this.load.audio('jump', 'https://www.soundjay.com/button/sounds/button-3.mp3');
-    this.load.audio('collect', 'https://www.soundjay.com/button/sounds/button-09.mp3');
+    this.load.audio('jump', 'https://assets.mixkit.co/active_storage/sfx/1555/1555-preview.mp3');
+    this.load.audio('collect', 'https://assets.mixkit.co/active_storage/sfx/1805/1805-preview.mp3');
 }
 
 function create() {
