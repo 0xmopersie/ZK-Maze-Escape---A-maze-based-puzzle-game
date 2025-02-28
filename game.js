@@ -1,5 +1,5 @@
-// ZK Runner - Enhanced Version
-// Improved endless runner game with better visuals and mechanics
+// ZK Runner - Fully Enhanced Version
+// Improved visuals, mechanics, and player experience
 
 const config = {
     type: Phaser.AUTO,
@@ -26,15 +26,18 @@ let zkProofs;
 let score = 0;
 let scoreText;
 let gameOverText;
+let restartButton;
 
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('player', 'https://cdn-icons-png.flaticon.com/512/1995/1995574.png');
+    this.load.image('player', 'https://cdn-icons-png.flaticon.com/512/4712/4712034.png');
     this.load.image('ground', 'https://cdn-icons-png.flaticon.com/512/646/646094.png');
     this.load.image('obstacle', 'https://cdn-icons-png.flaticon.com/512/564/564619.png');
     this.load.image('zkProof', 'https://cdn-icons-png.flaticon.com/512/845/845646.png');
     this.load.image('restart', 'https://cdn-icons-png.flaticon.com/512/3031/3031293.png');
+    this.load.audio('jump', 'https://www.soundjay.com/button/sounds/button-3.mp3');
+    this.load.audio('collect', 'https://www.soundjay.com/button/sounds/button-09.mp3');
 }
 
 function create() {
@@ -44,21 +47,21 @@ function create() {
     
     player = this.physics.add.sprite(100, 300, 'player');
     player.setCollideWorldBounds(true);
-    player.setScale(0.1);
+    player.setScale(0.15);
     this.physics.add.collider(player, ground);
     
     obstacles = this.physics.add.group();
     zkProofs = this.physics.add.group();
     
     this.time.addEvent({
-        delay: 2000,
+        delay: 1800,
         callback: spawnObstacle,
         callbackScope: this,
         loop: true
     });
     
     this.time.addEvent({
-        delay: 3000,
+        delay: 2500,
         callback: spawnZKProof,
         callbackScope: this,
         loop: true
@@ -70,40 +73,45 @@ function create() {
     this.physics.add.collider(player, obstacles, gameOver, null, this);
     this.physics.add.overlap(player, zkProofs, collectZKProof, null, this);
     
-    gameOverText = this.add.text(400, 200, '', { fontSize: '32px', fill: '#ff0000' }).setOrigin(0.5);
+    gameOverText = this.add.text(400, 150, '', { fontSize: '32px', fill: '#ff0000' }).setOrigin(0.5);
+    restartButton = this.add.image(400, 250, 'restart').setScale(0.1).setInteractive().setVisible(false);
+    restartButton.on('pointerdown', () => restartGame(), this);
 }
 
 function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-350);
+        this.sound.play('jump');
     }
 }
 
 function spawnObstacle() {
     let obstacle = obstacles.create(800, 360, 'obstacle');
     obstacle.setScale(0.1);
-    obstacle.setVelocityX(-200);
+    obstacle.setVelocityX(-220);
 }
 
 function spawnZKProof() {
     let zkProof = zkProofs.create(800, Phaser.Math.Between(250, 350), 'zkProof');
     zkProof.setScale(0.1);
-    zkProof.setVelocityX(-200);
+    zkProof.setVelocityX(-220);
 }
 
 function collectZKProof(player, zkProof) {
     zkProof.destroy();
     score += 10;
     scoreText.setText('Score: ' + score);
+    this.sound.play('collect');
 }
 
 function gameOver() {
     this.physics.pause();
     player.setTint(0xff0000);
-    gameOverText.setText('Game Over! Click to Restart');
-    
-    this.input.once('pointerdown', () => {
-        this.scene.restart();
-        score = 0;
-    });
+    gameOverText.setText('Game Over!');
+    restartButton.setVisible(true);
+}
+
+function restartGame() {
+    this.scene.restart();
+    score = 0;
 }
